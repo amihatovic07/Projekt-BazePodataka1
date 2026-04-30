@@ -3,7 +3,7 @@ CREATE DATABASE sustav_za_upravljanje_restoranom;
 USE sustav_za_upravljanje_restoranom;
 
 CREATE TABLE Zaposlenik (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(30) NOT NULL,
     prezime VARCHAR(50) NOT NULL,
     datum_zaposlenja DATE NOT NULL,
@@ -12,19 +12,19 @@ CREATE TABLE Zaposlenik (
 );
 
 CREATE TABLE Stol (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     broj_stola INT NOT NULL UNIQUE,
     kapacitet_stola INT NOT NULL,
     trenutna_zauzetost_stola BOOL NOT NULL
 );
 
 CREATE TABLE Jelovnik (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv_kategorije VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE Jelo (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv_jela VARCHAR(50) NOT NULL UNIQUE,
     cijena_jela DECIMAL(5, 2) NOT NULL,
     Trosak_pripravka_jela DECIMAL(5, 2) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE Jelo (
 );
 
 create table Specijalna_ponuda (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Jelo_id INTEGER NOT NULL,
     FOREIGN KEY (Jelo_id) REFERENCES Jelo (id),
     ponuden_popust DECIMAL(5, 2) NOT NULL,
@@ -41,14 +41,14 @@ create table Specijalna_ponuda (
 );
 
 CREATE TABLE VIP_gosti (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     mjesecni_popust DECIMAL(4, 2) NOT NULL,
     Specijalna_ponuda_id INTEGER NOT NULL,
     FOREIGN KEY (Specijalna_ponuda_id) REFERENCES Specijalna_ponuda (id)
 );
 
 CREATE TABLE Kupac (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(30) NOT NULL,
     prezime VARCHAR(50) NOT NULL,
     VIP_gosti_id INTEGER NULL,
@@ -56,7 +56,7 @@ CREATE TABLE Kupac (
 );
 
 CREATE TABLE Narudzbe (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     vrijeme_narudzbe DATETIME NOT NULL,
     Stol_id INTEGER NOT NULL,
     FOREIGN KEY (Stol_id) REFERENCES Stol (id),
@@ -67,7 +67,7 @@ CREATE TABLE Narudzbe (
 );
 
 CREATE TABLE Stavka_Narudzbe (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Narudzbe_id INTEGER NOT NULL,
     FOREIGN KEY (Narudzbe_id) REFERENCES Narudzbe (id),
     Jelo_id INTEGER NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE Stavka_Narudzbe (
 );
 
 CREATE TABLE Placanje (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Narudzbe_id INTEGER NOT NULL,
     FOREIGN KEY (Narudzbe_id) REFERENCES Narudzbe (id),
     iznos DECIMAL(5, 2) NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE Placanje (
 );
 
 CREATE TABLE Rezervacije (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Stol_id INTEGER NOT NULL,
     FOREIGN KEY (Stol_id) REFERENCES Stol (id),
     vrijeme_rezervacije DATETIME NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE Rezervacije (
 );
 
 CREATE TABLE Dostava (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Kupac_id INTEGER NOT NULL,
     FOREIGN KEY (Kupac_id) REFERENCES Kupac (id),
     Zaposlenik_id INTEGER NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE Dostava (
 );
 
 CREATE TABLE Racuni_prihodi (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     iznos_racuna DECIMAL(6,2) NOT NULL,
     vrijeme_izdavanja_racuna DATETIME NOT NULL,
     status_racuna VARCHAR(20) NOT NULL,
@@ -113,14 +113,14 @@ CREATE TABLE Racuni_prihodi (
 );
 
 CREATE TABLE Resursi (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv VARCHAR(50) NOT NULL,
     kolicina_resursa INT NOT NULL,
     vrijednost_resursa DECIMAL(6, 2) NOT NULL
 );
 
 CREATE TABLE Nabava_resursi (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Resursi_id INTEGER NOT NULL,
     FOREIGN KEY (Resursi_id) REFERENCES Resursi (id),
     cijena DECIMAL(6, 2) NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE Nabava_resursi (
 );
 
 CREATE TABLE Racuni_rashodi (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     vrsta_rashoda VARCHAR(50) NOT NULL,
     vrijeme_izdavanja_racuna DATETIME NOT NULL,
     Nabava_resursi_id INTEGER NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE Racuni_rashodi (
 );
 
 CREATE TABLE Obracun_prihoda_i_rashoda (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Racuni_prihodi_id INTEGER NOT NULL,
     FOREIGN KEY (Racuni_prihodi_id) REFERENCES Racuni_prihodi (id),
     Racuni_rashodi_id INTEGER NOT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE Obracun_prihoda_i_rashoda (
 );
 
 CREATE TABLE Bilanca (
-	id INTEGER PRIMARY KEY,
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
 	Obracun_prihoda_i_rashoda_id INTEGER NOT NULL,
     FOREIGN KEY (Obracun_prihoda_i_rashoda_id) REFERENCES Obracun_prihoda_i_rashoda (ID),
 	Resursi_id INTEGER NOT NULL,
