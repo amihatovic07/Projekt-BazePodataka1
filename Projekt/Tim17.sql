@@ -55,11 +55,22 @@ CREATE TABLE Kupac (
     FOREIGN KEY (VIP_gosti_id) REFERENCES VIP_gosti (id)
 );
 
+CREATE TABLE Rezervacije (
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    Stol_id INTEGER NOT NULL,
+    FOREIGN KEY (Stol_id) REFERENCES Stol (id),
+    vrijeme_rezervacije DATETIME NOT NULL,
+    Kupac_id INTEGER NOT NULL,
+    FOREIGN KEY (Kupac_id) REFERENCES Kupac (id)
+);
+
 CREATE TABLE Narudzbe (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     vrijeme_narudzbe DATETIME NOT NULL,
     Stol_id INTEGER NOT NULL,
     FOREIGN KEY (Stol_id) REFERENCES Stol (id),
+    Rezervacije_id INTEGER NULL,
+    FOREIGN KEY (Rezervacije_id) REFERENCES Rezervacije (id),
     Kupac_id INTEGER NOT NULL,
     FOREIGN KEY (Kupac_id) REFERENCES Kupac (id),
     Zaposlenik_id INTEGER NOT NULL,
@@ -81,15 +92,6 @@ CREATE TABLE Placanje (
     FOREIGN KEY (Narudzbe_id) REFERENCES Narudzbe (id),
     iznos DECIMAL(5, 2) NOT NULL,
     nacin_placanja VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE Rezervacije (
-	id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    Stol_id INTEGER NOT NULL,
-    FOREIGN KEY (Stol_id) REFERENCES Stol (id),
-    vrijeme_rezervacije DATETIME NOT NULL,
-    Kupac_id INTEGER NOT NULL,
-    FOREIGN KEY (Kupac_id) REFERENCES Kupac (id)
 );
 
 CREATE TABLE Dostava (
