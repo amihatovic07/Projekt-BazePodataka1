@@ -113,7 +113,7 @@ CREATE TABLE Racuni_prihodi (
     Placanje_id INTEGER NOT NULL,
     FOREIGN KEY (Placanje_id) REFERENCES Placanje (id)
 );
-
+-----Alex Mihatović----------------------------
 CREATE TABLE Resursi (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv VARCHAR(50) NOT NULL,
