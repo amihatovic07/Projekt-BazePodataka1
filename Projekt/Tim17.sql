@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS sustav_za_upravljanje_restoranom;
 CREATE DATABASE sustav_za_upravljanje_restoranom;
 USE sustav_za_upravljanje_restoranom;
-
+------Korado Brajuha------------
 CREATE TABLE Zaposlenik (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(30) NOT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE Obracun_prihoda_i_rashoda (
     FOREIGN KEY (Racuni_rashodi_id) REFERENCES Racuni_rashodi (id),
     konacni_iznos DECIMAL(6,2) NOT NULL
 );
-
+------Korado Brajuha------------
 CREATE TABLE Bilanca (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
 	Obracun_prihoda_i_rashoda_id INTEGER NOT NULL,
