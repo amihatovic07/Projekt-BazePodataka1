@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS sustav_za_upravljanje_restoranom;
 CREATE DATABASE sustav_za_upravljanje_restoranom;
 USE sustav_za_upravljanje_restoranom;
--- ----Korado Brajuha------------
+-- ---Korado Brajuha----------------------------
 CREATE TABLE Zaposlenik (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(30) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE Jelovnik (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv_kategorije VARCHAR(40) NOT NULL
 );
----
+
 CREATE TABLE Jelo (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv_jela VARCHAR(50) NOT NULL UNIQUE,
@@ -39,14 +39,14 @@ create table Specijalna_ponuda (
     ponuden_popust DECIMAL(5, 2) NOT NULL,
     pridodana_svojstva VARCHAR(40) NOT NULL
 );
----Antonio Đusti---
+-- ---Antonio Đusti----------------------------
 CREATE TABLE VIP_gosti (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     mjesecni_popust DECIMAL(4, 2) NOT NULL,
     Specijalna_ponuda_id INTEGER NOT NULL,
     FOREIGN KEY (Specijalna_ponuda_id) REFERENCES Specijalna_ponuda (id)
 );
----Antonio Đusti---
+
 CREATE TABLE Kupac (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(30) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE Kupac (
     VIP_gosti_id INTEGER NULL,
     FOREIGN KEY (VIP_gosti_id) REFERENCES VIP_gosti (id)
 );
----Antonio Đusti---
+
 CREATE TABLE Rezervacije (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Stol_id INTEGER NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE Placanje (
     iznos DECIMAL(5, 2) NOT NULL,
     nacin_placanja VARCHAR(50) NOT NULL
 );
----Antonio Đusti---
+-- ---Antonio Đusti----------------------------
 CREATE TABLE Dostava (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Kupac_id INTEGER NOT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE Obracun_prihoda_i_rashoda (
     FOREIGN KEY (Racuni_rashodi_id) REFERENCES Racuni_rashodi (id),
     konacni_iznos DECIMAL(6,2) NOT NULL
 );
--- ----Korado Brajuha------------
+-- ---Korado Brajuha----------------------------
 CREATE TABLE Bilanca (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
 	Obracun_prihoda_i_rashoda_id INTEGER NOT NULL,
