@@ -39,14 +39,14 @@ create table Specijalna_ponuda (
     ponuden_popust DECIMAL(5, 2) NOT NULL,
     pridodana_svojstva VARCHAR(40) NOT NULL
 );
-
+---Antonio Đusti---
 CREATE TABLE VIP_gosti (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     mjesecni_popust DECIMAL(4, 2) NOT NULL,
     Specijalna_ponuda_id INTEGER NOT NULL,
     FOREIGN KEY (Specijalna_ponuda_id) REFERENCES Specijalna_ponuda (id)
 );
-
+---Antonio Đusti---
 CREATE TABLE Kupac (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     ime VARCHAR(30) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE Kupac (
     VIP_gosti_id INTEGER NULL,
     FOREIGN KEY (VIP_gosti_id) REFERENCES VIP_gosti (id)
 );
-
+---Antonio Đusti---
 CREATE TABLE Rezervacije (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Stol_id INTEGER NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE Placanje (
     iznos DECIMAL(5, 2) NOT NULL,
     nacin_placanja VARCHAR(50) NOT NULL
 );
-
+---Antonio Đusti---
 CREATE TABLE Dostava (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Kupac_id INTEGER NOT NULL,
