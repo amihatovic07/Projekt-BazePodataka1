@@ -39,15 +39,25 @@
 
 ## 1. UVOD
 
-<br>
+Uvod se sastoji od dva dijela koja su ključna za početak dokumentacije sustava za upravljanje restoranom:
 
-<br>
+1. Opis projekta
+2. Opis baze podataka
 
-<br>
+### Opis projekta
 
-<br>
+Navedeno poglavlje od uvoda je ključno jer opisuje zašto je kreiran navedeni sustav, sustav je kreiran kao projektni zadatak za kolegij Baze podataka 1, a projekt su kreirali studenti sa više smjerova kao što su računarstvo: Ivor Jusufović, te informatike: David Kalčić, Korado Brajuha, Antonio Đusti i Alex Mihatović. Projekt je kreiran kako bi studenti naučili raditi unutar grupa te kako bi naučili osnove rada sa relacijskim bazama podataka pomoću SQL jezika, a SQL se za navedeni projekt primjenjuje unutar MySQL Workbench, dok dokumentacija je kreirana pomoću Markdown jezika, ER dijagram je sastavljen unutar Lucidchart web aplikacije što je dodatno dokaz primjene sveukupno stiječenog znanja tijekom 1. i 2. semestara. 
 
-<br>
+### Opis baze podataka
+
+Baza podataka je pozvana unutar SQL datoteke tako što prvo se makne ukoliko postoji baza podataka a potom se doda na novo te na taj način se olakša pristupanje podatcima i nije potrebno svaki upit ili tablicu zasebno pokretati. Nakon što se ponovo kreira baza podataka ona se odmah koristi naredbom USE
+
+SQL programski blok:
+``` sql
+  DROP DATABASE IF EXISTS sustav_za_upravljanje_restoranom;
+  CREATE DATABASE sustav_za_upravljanje_restoranom;
+  USE sustav_za_upravljanje_restoranom;
+```
 
 ## 2. OPIS  PROCESA
 
