@@ -159,3 +159,8 @@ CREATE TABLE Bilanca (
     stanje_poslije DECIMAL(8,2) NOT NULL,
     datum_bilance DATE NOT NULL
 );
+
+
+
+
+-- PROBA 1 , 2 , 3  --
