@@ -90,7 +90,7 @@ CREATE TABLE Placanje (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Narudzbe_id INTEGER NOT NULL,
     FOREIGN KEY (Narudzbe_id) REFERENCES Narudzbe (id),
-    iznos DECIMAL(5, 2) NOT NULL,
+    iznos DECIMAL(7, 2) NOT NULL,
     nacin_placanja VARCHAR(50) NOT NULL
 );
 -- ---Antonio Đusti----------------------------
@@ -107,7 +107,7 @@ CREATE TABLE Dostava (
 -- ---Ivor Jusufović----------------------------
 CREATE TABLE Racuni_prihodi (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    iznos_racuna DECIMAL(6,2) NOT NULL,
+    iznos_racuna DECIMAL(7,2) NOT NULL,
     vrijeme_izdavanja_racuna DATETIME NOT NULL,
     status_racuna VARCHAR(20) NOT NULL,
     Placanje_id INTEGER NOT NULL,
@@ -160,7 +160,71 @@ CREATE TABLE Bilanca (
     datum_bilance DATE NOT NULL
 );
 
+-- ---Insertani podatci unutar tablica----------------------------
+INSERT INTO Zaposlenik(ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika) VALUES
+    ('Ivan', 'Ivić', '2022-03-12', 'Glavni kuhar', 2250),
+    ('Antun', 'Skočić', '2024-02-12', 'Pomoćni kuhar', 1500),
+    ('Ana', 'Anić', '2025-05-21', 'Pomoćna kuharica', 1500),
+    ('Karla', 'Ivić', '2025-03-12', 'Čistač', 1150),
+    ('Romina', 'Lakić', '2025-07-12', 'Čistač', 1150),
+    ('Loren', 'Listić', '2025-04-17', 'Konobar', 1200),
+    ('Lorna', 'Ciklić', '2023-05-11', 'Konobar', 1200),
+    ('Korina', 'Kristić', '2025-03-13', 'Konobar', 1200),
+    ('Lorena', 'Lukić', '2026-02-01', 'Dostavljač', 1450),
+    ('Lino', 'Kapulić', '2022-09-30', 'Dostavljač', 1450),
+    ('David', 'Prstić', '2023-07-14', 'Dostavljač', 1450);
 
+INSERT INTO Stol(broj_stola, kapacitet_stola, trenutna_zauzetost_stola) VALUES
+	(1, 10, false),
+    (2, 10, false),
+    (3, 10, false),
+    (4, 10, true),
+    (5, 8, true),
+    (6, 8, false),
+    (7, 8, false),
+    (8, 6, true),
+    (9, 4, true),
+    (10, 4, true);
 
-
--- PROBA 1 , 2 , 3  --
+INSERT INTO Jelovnik (naziv_kategorije) VALUES
+	('Predjela'),
+    ('Juhe'),
+    ('Glavna jela'),
+    ('Deserti'),
+    ('Bezalkoholna pića'),
+    ('Alkoholna pića');
+    
+INSERT INTO Jelo(naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id) VALUES
+	('Juha od paradajza', 3.50, 1.50, 2),
+    ('Goveđa juha', 4.50, 2.00, 2),
+    ('Bruschette', 4.00, 2.00, 1),
+    ('Pileća juha', 4.00, 1.75, 2),
+    ('Tiramisu', 6.00, 2.50, 4),
+    ('Cheese cake', 7.50, 3.00, 4),
+    ('Coca Cola', 2.50, 0.50, 5),
+    ('Crno Vino', 4.00, 1.50, 6),
+    ('Jack Daniels', 5.00, 2.50, 6),
+    ('Rum & Coke', 6.50, 3.00, 6),
+    ('Tjestenina sa umakom od rajčice', 9.00, 4.00, 3),
+    ('Rižoto s plodovima mora', 14.50, 6.00, 3),
+    ('Rižoto s povrčem', 12.50, 5.00, 3),
+    ('Pommes Fries', 6.00, 2.00, 1),
+    ('Sladoledni kup', 7.00, 3.00, 4),
+    ('Fanta', 3.00, 0.70, 5),
+    ('Pašareta', 2.00, 0.75, 5),
+    ('Palačinke', 7.50, 3.00, 4),
+    ('Palenta sa tradicionalnim Istarskim šugom', 10.50, 3.75, 3),
+    ('Lignja na žaru', 13.00, 6.75, 3),
+    ('Meso na žaru', 12.75, 7.00, 3),
+    ('Povrče na žaru', 9.00, 4.25, 3),
+    ('Pastrva na žaru', 11.75, 5.50, 3),
+    ('Čevapi u lepinji', 12.00, 6.50, 3),
+    ('Pljeskavica u lepinji', 13.00, 6.75, 3),
+    ('Punjena pljeskavica', 13.75, 7.00, 3),
+    ('Mesna plata', 14.00, 7.50, 3),
+    ('Riba na žaru', 11.25, 5.75, 3),
+    ('Topla čokolada', 4.75, 1.20, 5),
+    ('Bijela kava', 2.25, 1.00, 5),
+    ('Espresso', 2.00, 0.75, 5),
+    ('Machiatto', 2.10, 0.80, 5),
+    ('Medica', 4.50, 2.00, 6);
