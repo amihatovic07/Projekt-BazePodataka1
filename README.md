@@ -72,6 +72,12 @@ SQL programski blok:
 
 ## 2. OPIS  PROCESA
 
+U sustavu se prati rad zaposlenika, gdje će se za svakog zaposlenika pratiti (id, ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika). Jelovnik se prati putem (id, naziv_kategorije).
+Stol se prati pomoću (id, broj_stola, kapacitet_stola, trenutna_zauzetost_stola). Kupac ima (id, ime, prezime, VIP_gosti_id) i može imati relacije s VIP_gostima gdje je (id, mjesecni_popust, Specijalna_ponuda_id). Kupac može izvršiti rezervacije za koje se rezervacije prate pomoću(id, Stol_id, vrijeme_rezervacije, Kupac_id).
+Nakon toga se vrše narudžbe, za koje se narudžba održava pomoću(id, vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id). Narudžba se sastoji od stavki narudžbe, koje se prate pomoću (id, Narudzbe_id, Jelo_id, kolicina).
+Za jelo se prati pomoću (id , naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id), dok se specijalne ponude prate pomoću (id, Jelo_id, ponuden_popust, pridodana_svojstva). Prihod_računa održava se pomoću (id, iznos_racuna, vrijeme_izdavanja_racuna, status_racuna, Placanje_id) i povezan je s plaćanjima.
+Plaćanje se prati putem  (id, Narudzbe_id, iznos, nacin_placanja), koji je povezan s narudžbama, dok se dostava može zahtijevati i dostava se održava putem (id, Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave). Sustav prati resurse (id, naziv, kolicina_resursa, vrijednost_resursa), nabavu resursa (id, Resursi_id, cijena, kolicina, datum_nabave) i Racunie rashoda (id, vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna).
+Konačno, slijedi izračun prihoda i rashoda (id, Racuni_prihodi_id, Racuni_rashodi_id, konacni_iznos), a zatim Bilanca (id, Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance).
 <br>
 
 <br>
