@@ -243,10 +243,22 @@ INSERT INTO Specijalna_ponuda(Jelo_id, ponuden_popust, pridodana_svojstva) VALUE
 	(28, 15, Pogača s maslinovim uljem);
 
 INSERT INTO VIP_gosti(mjesecni_popust, Specijalna_ponuda_id) VALUES
-	(5, Kuhana riža)
-	(10, Lješnjak)
-	(15, Blitva s krumpirom)
-	(20, Pogača s maslinovim uljem)
+	(5, 1)
+	(10, 5)
+	(15, 6)
+	(20, 11)
+
+INSERT INTO kupac(ime, prezime, VIP_gosti_id) VALUES
+	('Lovro', 'Lovrić', NULL),
+	('Laura', 'Lingaši', 1),
+	('Gabrijel', 'Paghrasi', 3),
+	('Ludovico', 'Trastelighio', 4),
+	('ante', 'Lukaši', NULL),
+	('Leotro', 'Suleiman', 3),
+	('Paolo', 'Rakšin', NULL),
+	('Ivan', 'Ivanišić', 2),
+	('Petra', 'Petrić', NULL),
+	('Roberta', 'Redak', 4);
 
 
 
