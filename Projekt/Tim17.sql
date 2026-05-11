@@ -369,7 +369,7 @@ INSERT INTO Resursi(naziv, kolicina_resursa, vrijednost_resursa, kategorija) VAL
     ('Uniforma za Čistaća', 8, 575.00, 'Radne uniforme'),
     ('Iznajmljena dostavna vozila', 3, 1200.00, 'Dostavna vozila'),
     ('Stol', 12, 3000.00, 'Restoranski namještaj'),
-    ('stolice', 100, 2425.00, 'Restoranski namještaj'),
+    ('Stolice', 100, 2425.00, 'Restoranski namještaj'),
     ('Dekoracije', 30, 750.00, 'Restoranski namještaj'),
     ('Noževi', 200, 300.00, 'Pribor za jelo'),
     ('Vilice', 200, 250.00, 'Pribor za jelo'),
@@ -388,3 +388,59 @@ INSERT INTO Resursi(naziv, kolicina_resursa, vrijednost_resursa, kategorija) VAL
     ('Suncokretovo ulje', 125, 1750.00, 'Namirnice'),
     ('Maslinovo ulje', 45, 750.00, 'Namirnice'),
     ('Kava u zrnu', 200, 1000, 'Namirnice');
+    
+INSERT INTO Nabava_resursi(Resursi_id, cijena, kolicina, datum_nabave) VALUES
+    (1, 4500.00, 450, '2026-01-15'),
+    (2, 2500.00, 300, '2026-01-15'),
+    (3, 4200.00, 400, '2026-01-20'),
+    (4, 4800.00, 320, '2026-02-01'),
+    (5, 2800.00, 380, '2026-02-01'),
+    (6, 1100.00, 180, '2026-02-10'),
+    (31, 220.00, 180, '2026-02-10'),
+    (32, 200.00, 200, '2026-02-15'),
+    (33, 550.00, 45, '2026-02-15'),
+    (34, 1100.00, 450, '2026-03-01'),
+    (35, 680.00, 40, '2026-03-01'),
+    (36, 1600.00, 70, '2026-03-10'),
+    (38, 680.00, 40, '2026-03-10'),
+    (39, 900.00, 180, '2026-03-15'),
+    (14, 800.00, 4, '2026-04-01'); 
+    
+INSERT INTO Racuni_rashodi(vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna) VALUES
+    ('Nabava mesa', '2026-01-15 09:00:00', 1, 4500.00, 'Izvršeno'),
+    ('Nabava mesa', '2026-01-15 09:00:00', 2, 2500.00, 'Izvršeno'),
+    ('Nabava mesa', '2026-01-20 10:00:00', 3, 4200.00, 'Izvršeno'),
+    ('Nabava ribe', '2026-02-01 08:30:00', 4, 4800.00, 'Izvršeno'),
+    ('Nabava ribe', '2026-02-01 08:30:00', 5, 2800.00, 'Izvršeno'),
+    ('Nabava namirnica', '2026-02-10 11:00:00', 6, 1100.00, 'Izvršeno'),
+    ('Nabava pića', '2026-02-10 11:00:00', 7, 220.00, 'Izvršeno'),
+    ('Nabava pića', '2026-02-15 10:30:00', 8, 200.00, 'Izvršeno'),
+    ('Nabava pića', '2026-02-15 10:30:00', 9, 550.00, 'Izvršeno'),
+    ('Nabava namirnica', '2026-03-01 09:00:00', 10, 1100.00, 'Izvršeno'),
+    ('Nabava namirnica', '2026-03-01 09:00:00', 11, 680.00, 'Izvršeno'),
+    ('Nabava pića', '2026-03-10 11:00:00', 12, 1600.00, 'Izvršeno'),
+    ('Nabava namirnica', '2026-03-10 11:00:00', 13, 680.00, 'Izvršeno'),
+    ('Nabava namirnica', '2026-03-15 08:00:00', 14, 900.00, 'Izvršeno'),
+    ('Nabava aparature', '2026-04-01 14:00:00', 15, 800.00, 'Izvršeno');
+    
+INSERT INTO Obracun_prihoda_i_rashoda(Racuni_prihodi_id, Racuni_rashodi_id) VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (6, 6),
+    (7, 7),
+    (8, 8),
+    (9, 9);
+    
+INSERT INTO Bilanca(Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance) VALUES
+    (1, 1, 50000.00, 45500.00, '2026-01-15'),
+    (2, 2, 45500.00, 43000.00, '2026-01-15'),
+    (3, 3, 43000.00, 38800.00, '2026-01-20'),
+    (4, 4, 38800.00, 34000.00, '2026-02-01'),
+    (5, 5, 34000.00, 31200.00, '2026-02-01'),
+    (6, 6, 31200.00, 30100.00, '2026-02-10'),
+    (7, 7, 30100.00, 29880.00, '2026-02-10'),
+    (8, 8, 29880.00, 29680.00, '2026-02-15'),
+    (9, 9, 29680.00, 29130.00, '2026-02-15');
