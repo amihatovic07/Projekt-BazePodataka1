@@ -67,7 +67,7 @@ CREATE TABLE Rezervacije (
 CREATE TABLE Narudzbe (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     vrijeme_narudzbe DATETIME NOT NULL,
-    Stol_id INTEGER NOT NULL,
+    Stol_id INTEGER NULL,
     FOREIGN KEY (Stol_id) REFERENCES Stol (id),
     Rezervacije_id INTEGER NULL,
     FOREIGN KEY (Rezervacije_id) REFERENCES Rezervacije (id),
@@ -260,5 +260,21 @@ INSERT INTO kupac(ime, prezime, VIP_gosti_id) VALUES
 	('Petra', 'Petrić', NULL),
 	('Roberta', 'Redak', 4);
 
+INSERT INTO Rezervacije (Stol_id, vrijeme_rezervacije, Kupac_id) VALUES
+	(4, 12-03-2026-11-45, 2),
+	(5, 21-01-2026-12-30, 3),
+	(8, 11-04-2026-11-00, 4),
+	(9, 14-05-2026-11-30, 1),
+	(10, 13-05-2026-11-15, 10),
+	(3, 24-05-2026-12-30, 6);
 
-
+INSERT INTO Narudzbe(vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id) VALUES
+	(12-03-2026-11-45, 4, 1, 2, 7),
+	(21-01-2026-12-30, 5, 2, 3, 6),
+	(11-04-2026-11-00, 8, 3, 4, 8),
+	(14-05-2026-11-30, 9, 4, 1, 7),
+	(13-05-2026-11-15, 10, 5, 10, 8),
+	(24-05-2026-12-30, 3, 6, 6, 8),
+	(12-03-2026-11-45, NULL, 1, 1, 9),
+	(12-05-2026-16-30, NULL, 1, 7, 9),
+	(12-12-2025-13-30, NULL, 1, 9, 11);
