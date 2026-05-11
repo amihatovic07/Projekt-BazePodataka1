@@ -90,7 +90,6 @@ CREATE TABLE Placanje (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Narudzbe_id INTEGER NOT NULL,
     FOREIGN KEY (Narudzbe_id) REFERENCES Narudzbe (id),
-    iznos DECIMAL(7, 2) NOT NULL,
     nacin_placanja VARCHAR(50) NOT NULL
 );
 -- ---Antonio Đusti----------------------------
@@ -107,7 +106,6 @@ CREATE TABLE Dostava (
 -- ---Ivor Jusufović----------------------------
 CREATE TABLE Racuni_prihodi (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    iznos_racuna DECIMAL(7,2) NOT NULL,
     vrijeme_izdavanja_racuna DATETIME NOT NULL,
     status_racuna VARCHAR(20) NOT NULL,
     Placanje_id INTEGER NOT NULL,
@@ -118,7 +116,8 @@ CREATE TABLE Resursi (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv VARCHAR(50) NOT NULL,
     kolicina_resursa INT NOT NULL,
-    vrijednost_resursa DECIMAL(6, 2) NOT NULL
+    vrijednost_resursa DECIMAL(6, 2) NOT NULL,
+    kategorija VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Nabava_resursi (
@@ -145,8 +144,7 @@ CREATE TABLE Obracun_prihoda_i_rashoda (
     Racuni_prihodi_id INTEGER NOT NULL,
     FOREIGN KEY (Racuni_prihodi_id) REFERENCES Racuni_prihodi (id),
     Racuni_rashodi_id INTEGER NOT NULL,
-    FOREIGN KEY (Racuni_rashodi_id) REFERENCES Racuni_rashodi (id),
-    konacni_iznos DECIMAL(6,2) NOT NULL
+    FOREIGN KEY (Racuni_rashodi_id) REFERENCES Racuni_rashodi (id)
 );
 -- ---Korado Brajuha----------------------------
 CREATE TABLE Bilanca (
@@ -269,15 +267,15 @@ INSERT INTO Rezervacije (Stol_id, vrijeme_rezervacije, Kupac_id) VALUES
 	(3, '2026-05-24 12:30:00', 6);
 
 INSERT INTO Narudzbe(vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id) VALUES
-	('2026-03-12 11:45:00', 4, 1, 2, 7),
-	('2026-01-21 12:30:00', 5, 2, 3, 6),
-	('2026-04-11 11:00:00', 8, 3, 4, 8),
-	('2026-05-14 11:30:00', 9, 4, 1, 7),
-	('2026-05-13 11:15:00', 10, 5, 10, 8),
-	('2026-05-24 12:30:00', 3, 6, 6, 8),
-	('2026-03-12 11:45:00', NULL, NULL, 1, 9),
-	('2026-05-12 16:30:00', NULL, NULL, 7, 9),
-	('2025-12-12 13:30:00', NULL, NULL, 9, 11);
+	('2026-03-12 11:42:11', 4, 1, 2, 7),
+	('2026-01-21 12:38:13', 5, 2, 3, 6),
+	('2026-04-11 11:00:23', 8, 3, 4, 8),
+	('2026-05-14 11:32:01', 9, 4, 1, 7),
+	('2026-05-13 11:16:54', 10, 5, 10, 8),
+	('2026-05-24 12:38:48', 3, 6, 6, 8),
+	('2026-03-12 11:47:37', NULL, NULL, 1, 9),
+	('2026-05-12 16:33:41', NULL, NULL, 7, 9),
+	('2026-12-12 13:30:29', NULL, NULL, 9, 11);
 
 INSERT INTO Stavka_Narudzbe (Narudzbe_id, Jelo_id, kolicina) VALUES
 	(1, 2, 3),
@@ -321,3 +319,72 @@ INSERT INTO Stavka_Narudzbe (Narudzbe_id, Jelo_id, kolicina) VALUES
 	(8, 17, 4),
 	(9, 27, 2),
 	(9, 6, 4);
+    
+INSERT INTO Placanje(Narudzbe_id, nacin_placanja) VALUES
+	(1, 'Gotovina'),
+    (2, 'Kartica'),
+    (3, 'Kartica'),
+    (4, 'Gotovina'),
+    (5, 'Kartica'),
+    (6, 'Gotovina'),
+    (7, 'Gotovina'),
+    (8, 'Kartica'),
+    (9, 'Gotovina');
+
+INSERT INTO Dostava(Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave) values
+	(1, 9, 7, '2026-03-12 12:00:34'),
+    (7, 9, 8, '2026-05-12 16:52:15'),
+    (9, 11, 9, '2026-12-12 13:45:53');
+    
+INSERT INTO Racuni_prihodi(vrijeme_izdavanja_racuna, status_racuna, Placanje_id) VALUES
+	('2026-03-12 13:33:31', 'U obradi', 1),
+    ('2026-01-21 14:21:29', 'Izvršeno', 2),
+    ('2026-04-11 12:49:13', 'U obradi', 3),
+    ('2026-05-14 13:02:11', 'Izvršeno', 4),
+    ('2026-05-13 15:00:10', 'Izvršeno', 5),
+    ('2026-05-24 14:42:36', 'Izvršeno', 6),
+    ('2026-03-12 12:00:34', 'U obradi', 7),
+    ('2026-05-12 16:52:15', 'U obradi', 8),
+    ('2026-12-12 13:45:53', 'Izvršeno', 9);
+    
+INSERT INTO Resursi(naziv, kolicina_resursa, vrijednost_resursa, kategorija) VALUES
+	('Govedina', 500, 5000.00, 'Skladište'),
+    ('Piletina', 375, 2975.00, 'Skladište'),
+    ('Junetina', 425, 4775.50, 'Skladište'),
+    ('Pastrva', 350, 5250.00, 'Skladište'),
+    ('Lignje', 400, 3000.00, 'Skladište'),
+    ('Sladoled vanilija', 200, 1200.00, 'Namirnice'),
+    ('Sladoled čokolada', 200, 1250.00, 'Namirnice'),
+    ('Sladoled sa okusom voća', 400, 2000.00, 'Namirnice'),
+    ('Dodatci za deserte', 500, 1750.00, 'Namirnice'),
+    ('Kuhaće', 65, 125.00, 'Kuhinjska oprema'),
+    ('Krpe', 125, 335.00, 'Kuhinjska oprema'),
+    ('Mikser', 4, 240.00, 'Kuhinjska aparatura'),
+    ('Drobilica za kavu', 2, 80.00, 'Kuhinjska oprema'),
+    ('Indukcijska ploča', 4, 850.00, 'Kuhinjska aparatura'),
+    ('Hladnjak', 8, 2500.00, 'Kuhinjska aparatura'),
+    ('Uniforma za konobara', 8, 700.00, 'Radne uniforme'),
+    ('Uniforma za kuhara', 6, 675.00, 'Radne uniforme'),
+    ('Uniforma za Dostavljaća', 8, 525.00, 'Radne uniforme'),
+    ('Uniforma za Čistaća', 8, 575.00, 'Radne uniforme'),
+    ('Iznajmljena dostavna vozila', 3, 1200.00, 'Dostavna vozila'),
+    ('Stol', 12, 3000.00, 'Restoranski namještaj'),
+    ('stolice', 100, 2425.00, 'Restoranski namještaj'),
+    ('Dekoracije', 30, 750.00, 'Restoranski namještaj'),
+    ('Noževi', 200, 300.00, 'Pribor za jelo'),
+    ('Vilice', 200, 250.00, 'Pribor za jelo'),
+    ('Tanjuri', 200, 425.00, 'Pribor za jelo'),
+    ('Žlice', 200, 325.00, 'Pribor za jelo'),
+    ('Vinske čaše', 175, 650.00, 'Pribor za jelo'),
+    ('Čaše', 225, 575.00, 'Pribor za jelo'),
+    ('Coca Cola', 200, 250.50, 'Namirnice'),
+    ('Fanta', 225, 230.75, 'Namirnice'),
+    ('Jack Daniels', 50, 600.00, 'Namirnice'),
+    ('Riža', 500, 1250.00, 'Namirnice'),
+    ('Rum', 45, 750.00, 'Namirnice'),
+    ('Brašno', 250, 750.00, 'Namirnice'),
+    ('Kvasac', 175, 1000.00, 'Namirnice'),
+    ('Crno vino', 75, 1750.00, 'Namirnice'),
+    ('Suncokretovo ulje', 125, 1750.00, 'Namirnice'),
+    ('Maslinovo ulje', 45, 750.00, 'Namirnice'),
+    ('Kava u zrnu', 200, 1000, 'Namirnice');
