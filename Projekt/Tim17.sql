@@ -228,3 +228,18 @@ INSERT INTO Jelo(naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id) VA
     ('Espresso', 2.00, 0.75, 5),
     ('Machiatto', 2.10, 0.80, 5),
     ('Medica', 4.50, 2.00, 6);
+
+INSERT INTO Specijalna_ponuda(Jelo_id, ponuden_popust, pridodana_svojstva)
+	(1, 5, Kuhana riža),
+	(5, 8, šumsko voće),
+	(11, 5, Salata od rikule),
+	(14, 10, Majoneza),
+	(18, 15, Lješnjak),
+	(20, 10, Blitva s krumpirom),
+	(21, 8, Lepinja),
+	(22, 12, Baguette),
+	(23, 8, Kruh ispod peke),
+	(24, 10, ajvar),
+	(28, 15, Pogača s maslinovim uljem);
+
+INSERT INTO VIP_gosti(mjesecni_popust, Specijalna_ponuda_id) 
