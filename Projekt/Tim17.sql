@@ -243,17 +243,17 @@ INSERT INTO Specijalna_ponuda(Jelo_id, ponuden_popust, pridodana_svojstva) VALUE
 	(28, 15, 'Pogača s maslinovim uljem');
 
 INSERT INTO VIP_gosti(mjesecni_popust, Specijalna_ponuda_id) VALUES
-	(5, 1)
-	(10, 5)
-	(15, 6)
-	(20, 11)
+	(5, 1),
+	(10, 5),
+	(15, 6),
+	(20, 11);
 
 INSERT INTO kupac(ime, prezime, VIP_gosti_id) VALUES
 	('Lovro', 'Lovrić', NULL),
 	('Laura', 'Lingaši', 1),
 	('Gabrijel', 'Paghrasi', 3),
 	('Ludovico', 'Trastelighio', 4),
-	('ante', 'Lukaši', NULL),
+	('Ante', 'Lukaši', NULL),
 	('Leotro', 'Suleiman', 3),
 	('Paolo', 'Rakšin', NULL),
 	('Ivan', 'Ivanišić', 2),
@@ -261,23 +261,23 @@ INSERT INTO kupac(ime, prezime, VIP_gosti_id) VALUES
 	('Roberta', 'Redak', 4);
 
 INSERT INTO Rezervacije (Stol_id, vrijeme_rezervacije, Kupac_id) VALUES
-	(4, 12-03-2026-11-45, 2),
-	(5, 21-01-2026-12-30, 3),
-	(8, 11-04-2026-11-00, 4),
-	(9, 14-05-2026-11-30, 1),
-	(10, 13-05-2026-11-15, 10),
-	(3, 24-05-2026-12-30, 6);
+	(4, '2026-03-12 11:45:00', 2),
+	(5, '2026-01-21 12:30:00', 3),
+	(8, '2026-04-11 11:00:00', 4),
+	(9, '2026-05-14 11:30:00', 1),
+	(10, '2026-05-13 11:15:00', 10),
+	(3, '2026-05-24 12:30:00', 6);
 
 INSERT INTO Narudzbe(vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id) VALUES
-	(12-03-2026-11-45, 4, 1, 2, 7),
-	(21-01-2026-12-30, 5, 2, 3, 6),
-	(11-04-2026-11-00, 8, 3, 4, 8),
-	(14-05-2026-11-30, 9, 4, 1, 7),
-	(13-05-2026-11-15, 10, 5, 10, 8),
-	(24-05-2026-12-30, 3, 6, 6, 8),
-	(12-03-2026-11-45, NULL, NULL, 1, 9),
-	(12-05-2026-16-30, NULL, NULL, 7, 9),
-	(12-12-2025-13-30, NULL, NULL, 9, 11);
+	('2026-03-12 11:45:00', 4, 1, 2, 7),
+	('2026-01-21 12:30:00', 5, 2, 3, 6),
+	('2026-04-11 11:00:00', 8, 3, 4, 8),
+	('2026-05-14 11:30:00', 9, 4, 1, 7),
+	('2026-05-13 11:15:00', 10, 5, 10, 8),
+	('2026-05-24 12:30:00', 3, 6, 6, 8),
+	('2026-03-12 11:45:00', NULL, NULL, 1, 9),
+	('2026-05-12 16:30:00', NULL, NULL, 7, 9),
+	('2025-12-12 13:30:00', NULL, NULL, 9, 11);
 
 INSERT INTO Stavka_Narudzbe (Narudzbe_id, Jelo_id, kolicina) VALUES
 	(1, 2, 3),
@@ -288,12 +288,12 @@ INSERT INTO Stavka_Narudzbe (Narudzbe_id, Jelo_id, kolicina) VALUES
 	(1, 7, 2),
 	(1, 8, 5),
 	(1, 9, 2),
-	(2, 2, 3),
+	(2, 3, 2),
 	(2, 2, 2),
 	(2, 1, 3),
 	(2, 19, 4),
-	(2, 27, 31),
-	(2, 28, 33),
+	(2, 27, 3),
+	(2, 28, 3),
 	(3, 5, 3),
 	(3, 6, 4),
 	(3, 7, 3),
@@ -312,10 +312,9 @@ INSERT INTO Stavka_Narudzbe (Narudzbe_id, Jelo_id, kolicina) VALUES
 	(6, 28, 1),
 	(6, 8, 3),
 	(6, 7, 1),
-	(7, 2, 3),
-	(7, 2, 3),
-	(7, 2, 3),
-	(7, 2, 3),
+	(7, 13, 2),
+	(7, 7, 1),
+	(7, 14, 2),
 	(8, 20, 3),
 	(8, 5, 2),
 	(8, 18, 3),
