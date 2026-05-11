@@ -88,24 +88,24 @@ Navedeno poglavlje se sastoji od dvaju dijelova:
 
 ## Relacijski model (Relacijska shema)
 Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire slike primjene ovog sustava u radu, s obzirom da je namijena kreiranje sustava koji upravlja restoranom, pokriveni su svi mogući dijelovi restorana koji su važni za njegovo funkcioniranje te za njegov pravilan i efikasan rad, navedene relacije su istaknute unutar Relacijskog modela baze podataka:
-1. Zaposlenik relacija
-2. Stol relacija
-3. Jelovnik relacija
-4. Jelo relacija
-5. Specijalna_ponuda relacija
-6. VIP_gosti relacija
-7. Kupac relacija
-8. Rezervacije relacija
-9. Narudzbe relacija
-10. Stavka_Narudzbe relacija
-11. Placanje relacija
-12. Dostava relacija
-13. Racuni_prihodi relacija
-14. Resursi relacija
-15. Nabava_resursi relacija
-16. Racuni_rashodi relacija
-17. Obracun_prihoda_i_rashoda relacija
-18. Bilanca relacija
+1. Zaposlenik relacija (ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika)
+2. Stol relacija (broj_stola, kapacitet_stola, trenutna_zauzetost_stola)
+3. Jelovnik relacija (naziv_kategorije)
+4. Jelo relacija (naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id)
+5. Specijalna_ponuda relacija (Jelo_id, ponuden_popust, pridodana_svojstva)
+6. VIP_gosti relacija (mjesecni_popust, Specijalna_ponuda_id)
+7. Kupac relacija (ime, prezime, VIP_gosti_id)
+8. Rezervacije relacija (Stol_id, vrijeme_rezervacije, Kupac_id)
+9. Narudzbe relacija (vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id)
+10. Stavka_Narudzbe relacija (Narudzbe_id, Jelo_id, kolicina)
+11. Placanje relacija (Narudzbe_id, iznos, nacin_placanja)
+12. Dostava relacija (Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave)
+13. Racuni_prihodi relacija (iznos_racuna, vrijeme_izdavanja_racuna, status_racuna, Placanje_id)
+14. Resursi relacija (naziv, kolicina_resursa, vrijednost_resursa)
+15. Nabava_resursi relacija (Resursi_id, cijena, kolicina, datum_nabave)
+16. Racuni_rashodi relacija (vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna)
+17. Obracun_prihoda_i_rashoda relacija (Racuni_prihodi_id, Racuni_rashodi_id, konacni_iznos)
+18. Bilanca relacija (Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance)
 * ### 5. EER dijagram (MySQL Workbench)...........................................................................................
 * ### 6. Tablice baze podataka ...................................................................................................
 * ### 7. Upiti (SQL upiti i objašnjenja)..........................................................................................
