@@ -444,3 +444,61 @@ INSERT INTO Bilanca(Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stan
     (7, 7, 30100.00, 29880.00, '2026-02-10'),
     (8, 8, 29880.00, 29680.00, '2026-02-15'),
     (9, 9, 29680.00, 29130.00, '2026-02-15');
+
+
+
+
+
+
+----ivor-----
+---upit 1 ----
+---Lista kupaca bez dostave za narudžbe prije određenog datuma---
+SELECT 
+    Kupac.id,
+    Kupac.ime,
+    Kupac.prezime
+FROM Kupac
+INNER JOIN Narudzbe
+    ON Kupac.id = Narudzbe.Kupac_id
+INNER JOIN Placanje
+    ON Narudzbe.id = Placanje.Narudzbe_id
+WHERE Narudzbe.vrijeme_narudzbe < '2026-05-01'
+HAVING Kupac.id NOT IN (
+    SELECT Kupac_id 
+    FROM Dostava
+);
+---upit 2 ----
+---Filtriranje narudžbi po zaposleniku i datumu---
+SELECT 
+    Zaposlenik.id,
+    Zaposlenik.ime,
+    Zaposlenik.prezime,
+    Narudzbe.id AS narudzba_id
+FROM Zaposlenik
+INNER JOIN Narudzbe
+    ON Zaposlenik.id = Narudzbe.Zaposlenik_id
+WHERE Zaposlenik.pozicija_zaposlenika = 'Konobar'
+AND Narudzbe.vrijeme_narudzbe > '2026-03-01';
+---upit 3----
+---Narudžbe s ukupnom količinom artikala većom od 10---
+SELECT 
+    Narudzbe.id,
+    SUM(Stavka_Narudzbe.kolicina) AS ukupna_kolicina
+FROM Narudzbe
+INNER JOIN Stavka_Narudzbe
+    ON Narudzbe.id = Stavka_Narudzbe.Narudzbe_id
+GROUP BY Narudzbe.id
+HAVING SUM(Stavka_Narudzbe.kolicina) > 10;
+---upit 4 ----
+---Dostave izvršene prije 01.06.2026. i pripadni zaposlenici---
+SELECT 
+    Dostava.Narudzbe_id,
+    Dostava.vrijeme_dostave,
+    Zaposlenik.ime,
+    Zaposlenik.prezime
+FROM Dostava
+INNER JOIN Zaposlenik
+    ON Dostava.Zaposlenik_id = Zaposlenik.id
+INNER JOIN Narudzbe
+    ON Dostava.Narudzbe_id = Narudzbe.id
+WHERE Dostava.vrijeme_dostave < '2026-06-01';
