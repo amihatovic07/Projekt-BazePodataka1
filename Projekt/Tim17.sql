@@ -8,13 +8,13 @@ CREATE TABLE Zaposlenik (
     prezime VARCHAR(50) NOT NULL,
     datum_zaposlenja DATE NOT NULL,
     pozicija_zaposlenika VARCHAR(50) NOT NULL,
-    placa_zaposlenika DECIMAL(6, 2) NOT NULL
+    placa_zaposlenika DECIMAL(6, 2) NOT NULL CHECK (placa_zaposlenika > 1050)
 );
 
 CREATE TABLE Stol (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    broj_stola INT NOT NULL UNIQUE,
-    kapacitet_stola INT NOT NULL,
+    broj_stola INTEGER NOT NULL UNIQUE CHECK (broj_stola > 0),
+    kapacitet_stola INTEGER NOT NULL CHECK (kapacitet_stola > 2),
     trenutna_zauzetost_stola BOOL NOT NULL
 );
 
@@ -26,8 +26,8 @@ CREATE TABLE Jelovnik (
 CREATE TABLE Jelo (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv_jela VARCHAR(50) NOT NULL UNIQUE,
-    cijena_jela DECIMAL(5, 2) NOT NULL,
-    Trosak_pripravka_jela DECIMAL(5, 2) NOT NULL,
+    cijena_jela DECIMAL(5, 2) NOT NULL CHECK (cijena_jela > 0),
+    Trosak_pripravka_jela DECIMAL(5, 2) NOT NULL CHECK (Trosak_pripravka_jela > 0),
     Jelovnik_id INTEGER NOT NULL,
     FOREIGN KEY (Jelovnik_id) REFERENCES Jelovnik (id)
 );
@@ -36,13 +36,13 @@ create table Specijalna_ponuda (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Jelo_id INTEGER NOT NULL,
     FOREIGN KEY (Jelo_id) REFERENCES Jelo (id),
-    ponuden_popust DECIMAL(5, 2) NOT NULL,
+    ponuden_popust DECIMAL(5, 2) NOT NULL CHECK (ponuden_popust BETWEEN 0 AND 100),
     pridodana_svojstva VARCHAR(40) NOT NULL
 );
 -- ---Antonio Đusti----------------------------
 CREATE TABLE VIP_gosti (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    mjesecni_popust DECIMAL(4, 2) NOT NULL,
+    mjesecni_popust DECIMAL(4, 2) NOT NULL CHECK (mjesecni_popust BETWEEN 0 AND 100),
     Specijalna_ponuda_id INTEGER NOT NULL,
     FOREIGN KEY (Specijalna_ponuda_id) REFERENCES Specijalna_ponuda (id)
 );
@@ -115,8 +115,8 @@ CREATE TABLE Racuni_prihodi (
 CREATE TABLE Resursi (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv VARCHAR(50) NOT NULL,
-    kolicina_resursa INT NOT NULL,
-    vrijednost_resursa DECIMAL(6, 2) NOT NULL,
+    kolicina_resursa INT NOT NULL CHECK (kolicina_resursa >= 0),
+    vrijednost_resursa DECIMAL(6, 2) NOT NULL CHECK (vrijednost_resursa >= 0),
     kategorija VARCHAR(30) NOT NULL
 );
 
@@ -124,8 +124,8 @@ CREATE TABLE Nabava_resursi (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     Resursi_id INTEGER NOT NULL,
     FOREIGN KEY (Resursi_id) REFERENCES Resursi (id),
-    cijena DECIMAL(6, 2) NOT NULL,
-    kolicina INTEGER NOT NULL,
+    cijena DECIMAL(6, 2) NOT NULL CHECK (cijena > 0),
+    kolicina INTEGER NOT NULL CHECK (kolicina > 0),
     datum_nabave DATE NOT NULL
 );
 
@@ -135,7 +135,7 @@ CREATE TABLE Racuni_rashodi (
     vrijeme_izdavanja_racuna DATETIME NOT NULL,
     Nabava_resursi_id INTEGER NOT NULL,
     FOREIGN KEY (Nabava_resursi_id) REFERENCES Nabava_resursi (id),
-    iznos DECIMAL(6,2) NOT NULL,
+    iznos DECIMAL(6,2) NOT NULL CHECK (iznos > 0),
     status_racuna VARCHAR(20) NOT NULL
 );
 
@@ -150,11 +150,11 @@ CREATE TABLE Obracun_prihoda_i_rashoda (
 CREATE TABLE Bilanca (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
 	Obracun_prihoda_i_rashoda_id INTEGER NOT NULL,
-    FOREIGN KEY (Obracun_prihoda_i_rashoda_id) REFERENCES Obracun_prihoda_i_rashoda (ID),
+    FOREIGN KEY (Obracun_prihoda_i_rashoda_id) REFERENCES Obracun_prihoda_i_rashoda (id),
 	Resursi_id INTEGER NOT NULL,
     FOREIGN KEY (Resursi_id) REFERENCES Resursi (id),
-    stanje_prije DECIMAL(8,2) NOT NULL,
-    stanje_poslije DECIMAL(8,2) NOT NULL,
+    stanje_prije DECIMAL(8,2) NOT NULL CHECK (stanje_prije >= 0),
+    stanje_poslije DECIMAL(8,2) NOT NULL CHECK (stanje_poslije >= 0),
     datum_bilance DATE NOT NULL
 );
 
@@ -246,7 +246,7 @@ INSERT INTO VIP_gosti(mjesecni_popust, Specijalna_ponuda_id) VALUES
 	(15, 6),
 	(20, 11);
 
-INSERT INTO kupac(ime, prezime, VIP_gosti_id) VALUES
+INSERT INTO Kupac(ime, prezime, VIP_gosti_id) VALUES
 	('Lovro', 'Lovrić', NULL),
 	('Laura', 'Lingaši', 1),
 	('Gabrijel', 'Paghrasi', 3),
