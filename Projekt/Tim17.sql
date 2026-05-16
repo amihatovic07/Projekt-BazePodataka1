@@ -460,7 +460,7 @@ INNER JOIN Narudzbe
 INNER JOIN Placanje
     ON Narudzbe.id = Placanje.Narudzbe_id
 WHERE Narudzbe.vrijeme_narudzbe < '2026-05-01'
-HAVING Kupac.id NOT IN (
+AND Kupac.id NOT IN (
     SELECT Kupac_id 
     FROM Dostava
 );
@@ -499,3 +499,64 @@ INNER JOIN Zaposlenik
 INNER JOIN Narudzbe
     ON Dostava.Narudzbe_id = Narudzbe.id
 WHERE Dostava.vrijeme_dostave < '2026-06-01';
+
+
+-- ---Pogledi----------------------------
+-- -Pogled temeljen na 1. upitu---
+CREATE OR REPLACE VIEW lista_kupaca_bez_dostave_za_narudzbe_prije_odredenog_datuma AS
+SELECT 
+    Kupac.id,
+    Kupac.ime,
+    Kupac.prezime
+FROM Kupac
+INNER JOIN Narudzbe
+    ON Kupac.id = Narudzbe.Kupac_id
+INNER JOIN Placanje
+    ON Narudzbe.id = Placanje.Narudzbe_id
+WHERE Narudzbe.vrijeme_narudzbe < '2026-05-01'
+AND Kupac.id NOT IN (
+    SELECT Kupac_id 
+    FROM Dostava
+);
+SELECT * FROM lista_kupaca_bez_dostave_za_narudzbe_prije_odredenog_datuma;
+
+-- -Pogled temeljen na 2. upitu---
+CREATE OR REPLACE VIEW filtriranje_narudzbi_po_zaposleniku_i_datumu AS
+SELECT 
+    Zaposlenik.id,
+    Zaposlenik.ime,
+    Zaposlenik.prezime,
+    Narudzbe.id AS narudzba_id
+FROM Zaposlenik
+INNER JOIN Narudzbe
+    ON Zaposlenik.id = Narudzbe.Zaposlenik_id
+WHERE Zaposlenik.pozicija_zaposlenika = 'Konobar'
+AND Narudzbe.vrijeme_narudzbe > '2026-03-01';
+SELECT * FROM filtriranje_narudzbi_po_zaposleniku_i_datumu;
+
+-- -Pogled temeljen na 3. upitu---
+CREATE OR REPLACE VIEW Narudzbe_s_ukupnom_kolicinom_artikala_vecom_od_10 AS
+SELECT 
+    Narudzbe.id,
+    SUM(Stavka_Narudzbe.kolicina) AS ukupna_kolicina
+FROM Narudzbe
+INNER JOIN Stavka_Narudzbe
+    ON Narudzbe.id = Stavka_Narudzbe.Narudzbe_id
+GROUP BY Narudzbe.id
+HAVING SUM(Stavka_Narudzbe.kolicina) > 10;
+SELECT * FROM Narudzbe_s_ukupnom_kolicinom_artikala_vecom_od_10;
+
+-- -Pogled temeljen na 4. upitu---
+CREATE OR REPLACE VIEW dostave_izvrsene_prije_01_06_2026_i_pripadni_zaposlenici AS
+SELECT 
+    Dostava.Narudzbe_id,
+    Dostava.vrijeme_dostave,
+    Zaposlenik.ime,
+    Zaposlenik.prezime
+FROM Dostava
+INNER JOIN Zaposlenik
+    ON Dostava.Zaposlenik_id = Zaposlenik.id
+INNER JOIN Narudzbe
+    ON Dostava.Narudzbe_id = Narudzbe.id
+WHERE Dostava.vrijeme_dostave < '2026-06-01';
+SELECT * FROM dostave_izvrsene_prije_01_06_2026_i_pripadni_zaposlenici;

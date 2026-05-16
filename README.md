@@ -16,7 +16,7 @@ Kolegij: Baza podataka 1
 * ### 1. UVOD ....................................................................................................................
 * ### 2. Opis  PROCESA............................................................................................................ 
 * ### 3. ER DIJAGRAM .............................................................................................................
-* ### 3.1. Slika ER DIJAGRAMA..................................................................................................... 
+* ### 3.1. Slika ER DIJAGRAMA.....................................................................................................
 * ### 3.2. Opis ER DIJAGRAMA......................................................................................................
 * ### 4. Relacijski model (sheme).................................................................................................
 * ### 5. EER dijagram (MySQL Workbench)...........................................................................................
@@ -36,6 +36,16 @@ Kolegij: Baza podataka 1
 * #### 7.8 UPIT 8.................................................................................................................
 * #### 7.9 UPIT 9.................................................................................................................
 * #### 7.10 UPIT 10...............................................................................................................
+* #### 7.11 POGLED 1 .............................................................................................................
+* #### 7.12 POGLED 2 .............................................................................................................
+* #### 7.13 POGLED 3..............................................................................................................
+* #### 7.14 POGLED 4..............................................................................................................
+* #### 7.15 POGLED 5..............................................................................................................
+* #### 7.16 POGLED 6..............................................................................................................
+* #### 7.17 POGLED 7..............................................................................................................
+* #### 7.18 POGLED 8..............................................................................................................
+* #### 7.19 POGLED 9..............................................................................................................
+* #### 7.20 POGLED 10.............................................................................................................
 * ### 8. Zaključak................................................................................................................
 
 ---
@@ -65,7 +75,8 @@ Navedeno poglavlje od uvoda je ključno jer opisuje zašto je kreiran navedeni s
 
 Baza podataka je pozvana unutar SQL datoteke tako što prvo se makne ukoliko postoji baza podataka a potom se doda na novo te na taj način se olakša pristupanje podatcima i nije potrebno svaki upit ili tablicu zasebno pokretati. Nakon što se ponovo kreira baza podataka ona se odmah koristi naredbom USE
 
-SQL programski blok:
+Izrada baze podataka vrši se sa naredbom *CREATE DATABASE* kako bi se mogla ponovno izraditi baza podataka se koristi *DROP DATABASE IF EXISTS* kako bi se izbrisala ako postoji i onda se koristi pomoću naredbe *USE*.
+
 ``` sql
   DROP DATABASE IF EXISTS sustav_za_upravljanje_restoranom;
   CREATE DATABASE sustav_za_upravljanje_restoranom;
@@ -74,11 +85,11 @@ SQL programski blok:
 
 ## 2. OPIS  PROCESA
 
-Unutar sustava se prati rad zaposlenika, gdje će se za svakog zaposlenika pratiti (id, ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika). Jelovnik se prati putem (id, naziv_kategorije). Stol se prati pomoću (id, broj_stola, kapacitet_stola, trenutna_zauzetost_stola). Kupac ima (id, ime, prezime, VIP_gosti_id) i može imati relacije s VIP_gostima gdje je (id, mjesecni_popust, Specijalna_ponuda_id). Kupac može izvršiti rezervacije za koje se rezervacije prate pomoću(id, Stol_id, vrijeme_rezervacije, Kupac_id).
-Nakon toga se vrše narudžbe, za koje se narudžba održava pomoću(id, vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id). Narudžba se sastoji od stavki narudžbe, koje se prate pomoću (id, Narudzbe_id, Jelo_id, kolicina).
-Za jelo se prati pomoću (id , naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id), dok se specijalne ponude prate pomoću (id, Jelo_id, ponuden_popust, pridodana_svojstva). Prihod_računa održava se pomoću (id, iznos_racuna, vrijeme_izdavanja_racuna, status_racuna, Placanje_id) i povezan je s plaćanjima.
-Plaćanje se prati putem  (id, Narudzbe_id, iznos, nacin_placanja), koji je povezan s narudžbama, dok se dostava može zahtijevati i dostava se održava putem (id, Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave). Sustav prati resurse (id, naziv, kolicina_resursa, vrijednost_resursa), nabavu resursa (id, Resursi_id, cijena, kolicina, datum_nabave) i Racuni rashoda (id, vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna).
-Konačno, slijedi izračun prihoda i rashoda (id, Racuni_prihodi_id, Racuni_rashodi_id, konacni_iznos), a zatim Bilanca (id, Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance).
+Unutar sustava se prati rad zaposlenika, gdje će se za svakog zaposlenika pratiti relacijom Zaposlenik (id, ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika). Jelovnik se prati putem relacije Jelovnik(id, naziv_kategorije). Stol se prati pomoću relacije Stol (id, broj_stola, kapacitet_stola, trenutna_zauzetost_stola). Kupac ima relaciju Kupac (id, ime, prezime, VIP_gosti_id) i može imati biti VIP gost unutar relacije VIP_gosti (id, mjesecni_popust, Specijalna_ponuda_id). Kupac može izvršiti rezervacije za koje se rezervacije prate pomoću relacije Rezervacije (id, Stol_id, vrijeme_rezervacije, Kupac_id).
+Nakon toga se vrše narudžbe, za koje se narudžba održava pomoću relacije Narudzbe (id, vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id). Narudžba se sastoji od stavki narudžbe, koje se prate pomoću relacije Stavka_narudzbe(id, Narudzbe_id, Jelo_id, kolicina).
+Za jelo se prati pomoću relacije Jelo (id , naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id), dok se specijalne ponude prate pomoću relacije Specijalne_ponuda (id, Jelo_id, ponuden_popust, pridodana_svojstva). Prihod računa održava se pomoću relacije Racuni_prihodi (id, vrijeme_izdavanja_racuna, status_racuna, Placanje_id) i povezan je s plaćanjima.
+Plaćanje se prati putem  relacije Placanje (id, Narudzbe_id, nacin_placanja), koji je povezan s narudžbama, dok se dostava može zahtijevati i dostava se održava putem relacije Dostava (id, Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave). Sustav prati resurse putem relacije Resursi (id, naziv, kolicina_resursa, vrijednost_resursa, kategorija), nabavu resursa putem relacije Nabava_resursi (id, Resursi_id, cijena, kolicina, datum_nabave) i Racuni rashoda putem relacije Racuni_rashodi (id, vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna).
+Konačno, slijedi izračun prihoda i rashoda putem relacije Obracun_prihoda_i_rashoda (id, Racuni_prihodi_id, Racuni_rashodi_id), a zatim Bilanca koju evidentiramo putem relacije Bilanca (id, Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance).
 
 ## 3. ER DIJAGRAM
 
@@ -93,36 +104,35 @@ Navedeno poglavlje se sastoji od dvaju dijelova:
 
 
 ## Relacijski model (Relacijska shema)
-Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire slike primjene ovog sustava u radu, s obzirom da je namijena kreiranje sustava koji upravlja restoranom, pokriveni su svi mogući dijelovi restorana koji su važni za njegovo funkcioniranje te za njegov pravilan i efikasan rad, navedene relacije su istaknute unutar Relacijskog modela baze podataka:
-1. Zaposlenik relacija (ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika)
-2. Stol relacija (broj_stola, kapacitet_stola, trenutna_zauzetost_stola)
-3. Jelovnik relacija (naziv_kategorije)
-4. Jelo relacija (naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id)
-5. Specijalna_ponuda relacija (Jelo_id, ponuden_popust, pridodana_svojstva)
-6. VIP_gosti relacija (mjesecni_popust, Specijalna_ponuda_id)
-7. Kupac relacija (ime, prezime, VIP_gosti_id)
-8. Rezervacije relacija (Stol_id, vrijeme_rezervacije, Kupac_id)
-9. Narudzbe relacija (vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id)
-10. Stavka_Narudzbe relacija (Narudzbe_id, Jelo_id, kolicina)
-11. Placanje relacija (Narudzbe_id, iznos, nacin_placanja)
-12. Dostava relacija (Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave)
-13. Racuni_prihodi relacija (iznos_racuna, vrijeme_izdavanja_racuna, status_racuna, Placanje_id)
-14. Resursi relacija (naziv, kolicina_resursa, vrijednost_resursa)
-15. Nabava_resursi relacija (Resursi_id, cijena, kolicina, datum_nabave)
-16. Racuni_rashodi relacija (vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna)
-17. Obracun_prihoda_i_rashoda relacija (Racuni_prihodi_id, Racuni_rashodi_id, konacni_iznos)
-18. Bilanca relacija (Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance)
-
+Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvaćanje šire slike primjene ovog sustava u radu, s obzirom da je namijena kreiranje sustava koji upravlja restoranom, pokriveni su svi mogući dijelovi restorana koji su važni za njegovo funkcioniranje te za njegov pravilan i efikasan rad, navedene relacije su istaknute unutar Relacijskog modela baze podataka:
+1. Zaposlenik (id, ime, prezime, datum_zaposlenja, pozicija_zaposlenika, placa_zaposlenika)
+2. Stol (id, broj_stola, kapacitet_stola, trenutna_zauzetost_stola)
+3. Jelovnik (id, naziv_kategorije)
+4. Jelo (id , naziv_jela, cijena_jela, Trosak_pripravka_jela, Jelovnik_id)
+5. Specijalna_ponuda (id, Jelo_id, ponuden_popust, pridodana_svojstva)
+6. VIP_gosti (id, mjesecni_popust, Specijalna_ponuda_id)
+7. Kupac (id, ime, prezime, VIP_gosti_id)
+8. Rezervacije (id, Stol_id, vrijeme_rezervacije, Kupac_id)
+9. Narudzbe (id, vrijeme_narudzbe, Stol_id, Rezervacije_id, Kupac_id, Zaposlenik_id)
+10. Stavka_Narudzbe (id, Narudzbe_id, Jelo_id, kolicina)
+11. Placanje (id, Narudzbe_id, nacin_placanja)
+12. Dostava (id, Kupac_id, Zaposlenik_id, Narudzbe_id, vrijeme_dostave)
+13. Racuni_prihodi (id, vrijeme_izdavanja_racuna, status_racuna, Placanje_id)
+14. Resursi (id, naziv, kolicina_resursa, vrijednost_resursa, kategorija)
+15. Nabava_resursi (id, Resursi_id, cijena, kolicina, datum_nabave)
+16. Racuni_rashodi (id, vrsta_rashoda, vrijeme_izdavanja_racuna, Nabava_resursi_id, iznos, status_racuna)
+17. Obracun_prihoda_i_rashoda (id, Racuni_prihodi_id, Racuni_rashodi_id)
+18. Bilanca (id, Obracun_prihoda_i_rashoda_id, Resursi_id, stanje_prije, stanje_poslije, datum_bilance)
 ### 5. EER dijagram (MySQL Workbench)
   **Narudzbe** tablica povezuje tko je naručio (**kupac**), tko je poslužio (**zaposlenik**), za kojim stolom (**stol**) te ima li rezervacije. **Stavka_narudzbe** detaljno bilježi koja su jela naručena. Tablica **jelovnik** i **jelo** nudi širok izbor hrane uz njihove cijene i cijene pripravka. Dok tablica **placanje** i **racuni_prihodi** zabilježavaju naplatu, iznos i način plaćanja. Tablice **kupac** i **vip_gosti** razlikuje obične kupce od onih s povlasticama. Tablica rezervacija prati tko je rezervirao stol i u koje vrijeme. Tablica **dostava** zabilježava narudžbe koje idu van restorana, uključujući vrijeme dostave. Tablica **zaposlenik** sadrži podatke o radnicima, njihovim pozicijama i plaćama. Tablica **racuni_rashodi** bilježe se svi troškovi restorana, a kroz tablice **resursi** i **nabava_resursa** prate se zalihe namirnica i datum nabave. Tablice **obracun_prihoda_i_rashoda** i **bilanca** služe kako bi se pratio ukupni financijski rezultat i vrijednosti imovine restorana.
  
 ### 6. Tablice baze podataka 
   Tablice unutar baze podataka koju smo nazvali po našoj temi: **sustav_za_upravljanje_restoranom** su formirane pomoću naredbi CREATE TABLE  te je važna napomena da smo kod pojedinih podataka stavili uvjet da smiju biti sa praznom vrijednosti a za pojedine da nesmiju te je važna napomena kako smo postavili za atribut id za svaku tablicu naredbom AUTO INCREMENT automatsko unošenje vrijednosti. Svaka tablica ima značajnu ulogu u upravljanju restoranom s obzirom da je ključna ideja ušteda resursa, evidencija resursa, povečanje efikasnosti te povečanje pprihoda a smanjenje rashoda i iz tog razloga unutar svake tablice je bilo ključno povezati zaseban podatak kako bi se nakraju unutar dijagrama mogli povezati i na taj način sklopiti "Bigger picture". Pojedine tablice evidentiraju datume i vrijeme primjerice datum zaposlenja, vrijeme rezervacije i slično te to je postignuto pomoću DATE i DATETIME naredba koje su nam to omogučile bez da tretiramo atribute kao stringove ili kao niz znakova.
-  #### 6.1 CREATE TABLE
+  #### 6.1 Tablice i Ograničenja
     Tablice su kreirane pomoću naredbe CREATE TABLE te su onda navedeni nazivi tablice a u nastavku i njezini atributi, za svaki atribut je navedena vrsta podatka, INTEGER, VARCHAR, DATE, DECIMAL, i slično. Važna napomena jest da su atributi id automatski uneseni od strane mysql workbench-a na način da se koristi AUTO_INCREMENT naredba kako bi se automatizirao postupak te kako bi se olakšao unos podataka.
 
 ##### Relacija **Zaposlenik**
-  Prati sve zaposlenike unutar restorana, relacija **Zaposlenik** sastoji se od slijedečih atributa:
+  Prati sve zaposlenike unutar restorana, relacija **Zaposlenik** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -148,7 +158,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
     
 ##### Relacija **Stol**
-  Prati sve stolove unutar restorana, relacija **Stol** sastoji se od slijedečih atributa:
+  Prati sve stolove unutar restorana, relacija **Stol** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -168,7 +178,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Jelovnik**
-  Prati sve kategorije unutar jelovnika, relacija **Jelovnik** sastoji se od slijedečih atributa:
+  Prati sve kategorije unutar jelovnika, relacija **Jelovnik** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -182,7 +192,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Jelo**
-  Prati sva jela koja se bilježe unutar restorana, relacija **Jelo** sastoji se od slijedečih atributa:
+  Prati sva jela koja se bilježe unutar restorana, relacija **Jelo** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -206,15 +216,15 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Specijalna_ponuda**
-  Prati sve specijalne ponude koje se bilježe unutar restorana, relacija **Specijalna_ponuda** sastoji se od slijedečih atributa:
+  Prati sve specijalne ponude koje se bilježe unutar restorana, relacija **Specijalna_ponuda** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
   - **Jelo_id** podatak je tipa *INTEGER* koji je strani ključ relacije Jelo, navedeni podatak je ograničen sa uvjetom NOT NULL.
 
-  - **ponuden_popust** podatak je tipa *INTEGER* koji predstavlja ponuđen popust kupcu, ograničen je sa uvjetom NOT NULL.
+  - **ponuden_popust** podatak je tipa *DECIMAL* koji predstavlja ponuđen popust kupcu, ograničen je sa uvjetima NOT NULL i CHECK (ponuden_popust BETWEEN 0 AND 100).
 
-  - **pridodana_svojstva** podatak je tipa *INTEGER* koji predstavlja pridodana svojstva nekom jelu, ograničen je sa uvjetom NOT NULL.
+  - **pridodana_svojstva** podatak je tipa *VARCHAR* koji predstavlja pridodana svojstva nekom jelu, ograničen je sa uvjetom NOT NULL.
 
     ```sql
       create table Specijalna_ponuda (
@@ -227,7 +237,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **VIP_gosti**
-  Prati sve VIP goste koje se bilježe unutar restorana, relacija **VIP_gosti** sastoji se od slijedečih atributa:
+  Prati sve VIP goste koje se bilježe unutar restorana, relacija **VIP_gosti** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -245,7 +255,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Kupac**
-  Prati sve kupce koje se bilježe unutar restorana, relacija **Kupac** sastoji se od slijedečih atributa:
+  Prati sve kupce koje se bilježe unutar restorana, relacija **Kupac** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -253,7 +263,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
 
   - **prezime** podatak je tipa *VARCHAR* koji predstavlja prezime kupca, ograničen je sa uvjetom NOT NULL.
 
-  - **VIP_gosti_id** podatak je tipa *INTEGER* koji je strani ključ relacije VIP_gosti, ograničen je sa uvjetom NOT NULL.
+  - **VIP_gosti_id** podatak je tipa *INTEGER* koji je strani ključ relacije VIP_gosti, ograničen je sa uvjetom NULL.
 
     ```sql
       CREATE TABLE Kupac (
@@ -266,7 +276,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Rezervacije**
-  Prati sve rezervacije koje se bilježe unutar restorana, relacija **Rezervacije** sastoji se od slijedečih atributa:
+  Prati sve rezervacije koje se bilježe unutar restorana, relacija **Rezervacije** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -288,15 +298,15 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Narudzbe**
-  Prati sve narudžbe koje se bilježe unutar restorana, relacija **Narudzbe** sastoji se od slijedečih atributa:
+  Prati sve narudžbe koje se bilježe unutar restorana, relacija **Narudzbe** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
   - **vrijeme_narudzbe** podatak je tipa *DATETIME* koji predstavlja vrijeme narudžbe, navedeni podatak je ograničen sa uvjetom NOT NULL.
 
-  - **Stol_id** podatak je tipa *INTEGER* koji je strani ključ relacije Stol, ograničen je sa uvjetom NOT NULL.
+  - **Stol_id** podatak je tipa *INTEGER* koji je strani ključ relacije Stol, ograničen je sa uvjetom NULL.
 
-  - **Rezervacije_id** podatak je tipa *INTEGER* koji je strani ključ relacije Rezervacije, ograničen je sa uvjetom NOT NULL.
+  - **Rezervacije_id** podatak je tipa *INTEGER* koji je strani ključ relacije Rezervacije, ograničen je sa uvjetom NULL.
 
   - **Kupac_id** podatak je tipa *INTEGER* koji je strani ključ relacije Kupac, ograničen je sa uvjetom NOT NULL.
 
@@ -318,7 +328,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Stavka_Narudzbe**
-  Prati sve stavke narudžbe koje se bilježe narudžbama, relacija **Stavka_narudzbe** sastoji se od slijedečih atributa:
+  Prati sve stavke narudžbe koje se bilježe narudžbama, relacija **Stavka_narudzbe** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -340,7 +350,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Placanje**
-  Prati sva plačanja koja su stvorena poslovanjem restorana, relacija **Placanje** sastoji se od slijedečih atributa:
+  Prati sva plačanja koja su stvorena poslovanjem restorana, relacija **Placanje** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -358,7 +368,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Dostava**
-  Prati sve dostave koje su kreirali kupci prilikom narudzbe van restorana, relacija **Dostava** sastoji se od slijedečih atributa:
+  Prati sve dostave koje su kreirali kupci prilikom narudzbe van restorana, relacija **Dostava** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -384,7 +394,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Racuni_prihodi**
-  Prati sve prihode koji su stvoreni poslovanjem restorana, relacija **Racuni_prihodi** sastoji se od slijedečih atributa:
+  Prati sve prihode koji su stvoreni poslovanjem restorana, relacija **Racuni_prihodi** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -405,7 +415,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Resursi**
-  Prati sve resurse koji su kreirani i neophodne za rad restorana, relacija **Resursi** sastoji se od slijedečih atributa:
+  Prati sve resurse koji su kreirani i neophodne za rad restorana, relacija **Resursi** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -428,7 +438,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Nabava_resursi**
-  Prati sve nabave resursa koje su kreirane i neophodne za rad restorana, relacija **Nabava_resursi** sastoji se od slijedečih atributa:
+  Prati sve nabave resursa koje su kreirane i neophodne za rad restorana, relacija **Nabava_resursi** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -452,7 +462,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Racuni_rashodi**
-  Prati sve rashode koji su stvoreni poslovanjem restorana, relacija **Racuni_rashodi** sastoji se od slijedečih atributa:
+  Prati sve rashode koji su stvoreni poslovanjem restorana, relacija **Racuni_rashodi** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -479,7 +489,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Obracun_prihoda_i_rashoda**
-  Prati sve prihode i rashode koje je restoran kreirao prilikom nabave resursa, relacija **Obracun_prihoda_i_rashoda** sastoji se od slijedečih atributa:
+  Prati sve prihode i rashode koje je restoran kreirao prilikom nabave resursa, relacija **Obracun_prihoda_i_rashoda** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -498,7 +508,7 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
     ```
 
 ##### Relacija **Bilanca**
-  Prati osnovni obračun prihoda sa rashodima te izračun istih sa trenutnim stanjem pojedinih resursa, relacija **Bilanca** sastoji se od slijedečih atributa:
+  Prati osnovni obračun prihoda sa rashodima te izračun istih sa trenutnim stanjem pojedinih resursa, relacija **Bilanca** sastoji se od sljedečih atributa:
 
   - **id** podatak je tipa *INTEGER* koji je primarni ključ od navedene relacije, te je unesen automatski pomoću naredbe AUTO_INCREMENT.
 
@@ -867,10 +877,10 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
       (8, 8, 29880.00, 29680.00, '2026-02-15'),
       (9, 9, 29680.00, 29130.00, '2026-02-15');
     ```     
-  #### 6.3 VIEW
 
-### 7. Upiti (SQL upiti i objašnjenja)
-  Upiti unutar baze podataka su osmišljeni sa detaljnim planiranjem i analiziranjem funkcionalnosti koje su potrebne kako bismo postigli ultimativnu namjeru navedenog sustava, konstruirani su pomoću NATURAL JOIN, INNER JOIN, JOIN te GROUPBY naredba uz napomenu da GROUPBY naredba je dodatno koristila SUM, COUNT, MIN, MAX i slično kako bismo dobili podatke koje tražimo. 
+### 7. Upiti i pogledi (SQL upiti, VIEW-ovi i objašnjenja)
+  Upiti unutar baze podataka su osmišljeni sa detaljnim planiranjem i analiziranjem funkcionalnosti koje su potrebne kako bismo postigli ultimativnu namjeru navedenog sustava, konstruirani su pomoću NATURAL JOIN, INNER JOIN, JOIN te GROUPBY naredba uz napomenu da GROUPBY naredba je dodatno koristila SUM, COUNT, MIN, MAX i slično kako bismo dobili podatke koje tražimo.
+
   #### 7.1 UPIT 1
    
   #### 7.2 UPIT 2
@@ -891,5 +901,25 @@ Navedeno poglavlje se sastoji od 18 točaka koje su ključne za shvačanje šire
 
   #### 7.10 UPIT 10
 
-### 8. Zaključak
+  #### 7.11 POGLED 1
+   
+  #### 7.12 POGLED 2
 
+  #### 7.13 POGLED 3
+
+  #### 7.14 POGLED 4
+
+  #### 7.15 POGLED 5
+
+  #### 7.16 POGLED 6
+
+  #### 7.17 POGLED 7
+
+  #### 7.18 POGLED 8
+
+  #### 7.19 POGLED 9
+
+  #### 7.20 POGLED 10
+
+### 8. Zaključak
+  Unutar zaključka projekta važno je samo napomenuti kako je tijekom izrade važno kreirati model baze podatka kako bismo onda znali gdje, kako i kada odlaze pojedini podatci, unutar praktične primjene takvog načina izrade baza podataka moguće je kreirati daleko efikasnije baze podataka koje djeluju kao temelj nekih modernih aplikacija primjerice za našu temu bi bila aplikacija za upravljanje restoranom, kako bismo efikasno izradili bazu podataka za takav objekt trebamo zabilježiti sve resurse, djelatnike, kupce, funkcionalnosti i financijske radnje kako bismo napravili pravilan slijed podataka koji bi mogao oformiti pravilnu aplikaciju i tako nam ubrzati proces izrade aplikacija ili programa.
