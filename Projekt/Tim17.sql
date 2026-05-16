@@ -17,7 +17,7 @@ CREATE TABLE Stol (
     kapacitet_stola INTEGER NOT NULL CHECK (kapacitet_stola > 2),
     trenutna_zauzetost_stola BOOL NOT NULL
 );
-
+-- ---David Kalčić-----------------------------------
 CREATE TABLE Jelovnik (
 	id INTEGER AUTO_INCREMENT PRIMARY KEY,
     naziv_kategorije VARCHAR(40) NOT NULL
